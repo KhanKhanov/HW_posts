@@ -29,12 +29,42 @@ data class Likes (
     val canPublish: Boolean = true // true - может ли текущий пользователь сделать репост записи
 )
 
+//class WallService {
+//    private var posts = emptyArray<Post>()
+//    private var nextId: Int = 0
+//
+//    fun add(post: Post): Post {
+//        val newPost = post.copy(id = nextId + 1)
+//        posts += newPost
+//        nextId++
+//        return newPost
+//    }
+//
+//    fun update(post: Post): Boolean {
+//        for (i in posts.indices) {
+//            if (posts[i].id == post.id) {
+//                val updatedPost = posts[i].copy(text = post.text, likes = Likes(count = 60))
+//                posts[i] = updatedPost
+//                println(posts[i])
+//                return true
+//            }
+//        }
+//        return false
+//    }
+//}
+
+// second option
 object WallService {
     private var posts = emptyArray<Post>()
-    private var nextId: Int = 0
+    private var nextId: Int = 1
+
+    fun clear() {
+        posts = emptyArray()
+        nextId = 1
+    }
 
     fun add(post: Post): Post {
-        val newPost = post.copy(id = nextId + 1)
+        val newPost = post.copy(id = nextId)
         posts += newPost
         nextId++
         return newPost
@@ -52,6 +82,22 @@ object WallService {
         return false
     }
 }
+
+//fun main() {
+//    val postService = WallService()
+//    val newPost = Post(text = "Новая запись", likes = Likes(count = 3))
+//    val addedPost = postService.add(newPost)
+//    println(addedPost)
+//
+//    val newPost2 = Post(text = "Вторая новая запись")
+//    val addedPost2 = postService.add(newPost2)
+//    println(addedPost2)
+//
+//    val updPost = Post(id = 2, text = "Обновленная запись поста", likes = Likes(count = 4))
+//    val updatePost = postService.update(updPost)
+//    println(updatePost)
+//}
+
 
 fun main() {
     val postService = WallService
