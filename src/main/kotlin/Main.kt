@@ -1,16 +1,17 @@
 data class Post (
     val id: Int = 0, //идентификатор записи
     val fromId: Int = 0, // идентификатор автора записи (от чьего имени опубликована запись)
-    val date: Int = 0, // время публикации записи
-    val text: String = "", // текст записи
-    val friendsOnly: Boolean = true, //true - если запись была создана с опцией "Только для друзей"
+    val date: Int? = 0, // время публикации записи,
+    val text: String? = "", // текст записи
+    val friendsOnly: Boolean = false, //true - если запись была создана с опцией "Только для друзей"
     val canPin: Boolean = true, // true - может ли текущий пользователь закрепить запись
     val canDelete: Boolean = true, // true - может ли текущий пользователь удалить запись
     val canEdit: Boolean = true, // true - может ли текущий пользователь редактировать запись
     val markedAsAds: Boolean = true, // true - информация о том, содержит ли запись отметку "реклама"
-    val isFavorite: Boolean = true, // true - объект добавлен в закладки у текущего пользователя
-    var comments: Comments = Comments(),
-    var likes: Likes = Likes()
+    val isFavorite: Boolean = false, // true - объект добавлен в закладки у текущего пользователя
+    var comments: Comments? = Comments(),
+    var likes: Likes? = Likes(),
+    var attachments: Array<Attachment>
 )
 
 // другие data-classes, которые могут быть вложены в класс Post
@@ -101,15 +102,15 @@ object WallService {
 
 fun main() {
     val postService = WallService
-    val newPost = Post(text = "Новая запись", likes = Likes(count = 3))
+    val newPost = Post(text = "Новая запись", likes = Likes(count = 3), attachments = emptyArray())
     val addedPost = postService.add(newPost)
     println(addedPost)
 
-    val newPost2 = Post(text = "Вторая новая запись")
+    val newPost2 = Post(text = "Вторая новая запись", attachments = emptyArray())
     val addedPost2 = postService.add(newPost2)
     println(addedPost2)
 
-    val updPost = Post(id = 2, text = "Обновленная запись поста", likes = Likes(count = 4))
+    val updPost = Post(id = 2, text = "Обновленная запись поста", likes = Likes(count = 4), attachments = emptyArray<Attachment>())
     val updatePost = postService.update(updPost)
     println(updatePost)
 }
