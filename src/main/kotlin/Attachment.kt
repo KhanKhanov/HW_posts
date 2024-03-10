@@ -5,7 +5,7 @@ interface Attachment {
 }
 
 data class AudioAttachment(
-    val id: Long,       // идентификатор вложения
+    val audioId: Long,       // идентификатор вложения
     val ownerId: Long,  // идентификатор владельца видео или аудио
     val title: String,  // название вложения
     val description: String,    // описание вложения
@@ -16,7 +16,7 @@ data class AudioAttachment(
 
 
 data class VideoAttachment(
-    val id: Long,       // идентификатор вложения
+    val videoId: Long,       // идентификатор вложения
     val ownerId: Long,  // идентификатор владельца видео или аудио
     val title: String,  // название вложения
     val description: String,    // описание вложения

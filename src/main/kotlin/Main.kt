@@ -1,5 +1,7 @@
+import java.time.LocalDateTime
+
 data class Post (
-    val id: Int = 0, //идентификатор записи
+    val postId: Int = 0, //идентификатор записи
     val fromId: Int = 0, // идентификатор автора записи (от чьего имени опубликована запись)
     val date: Int? = 0, // время публикации записи,
     val text: String? = "", // текст записи
@@ -16,6 +18,10 @@ data class Post (
 
 // другие data-classes, которые могут быть вложены в класс Post
 data class Comments (
+    val commentId: Int = 0, // идентификатор комментария
+    val fromId: Int = 0, // идентификатор создателя комментария
+    val date: LocalDateTime = LocalDateTime.now(), // дата создания комментария
+    var text: String = "", //текст комментария
     val count: Int = 0, // количество комментариев
     val canPost: Boolean = true, // true- текущий пользователь может комментировать запись
     val groupsCanPost: Boolean = true, //true- сообщества могут комментировать запись
@@ -29,6 +35,8 @@ data class Likes (
     val canLike: Boolean = true, // true - может ли текущий пользователь поставить отметку "Мне нравится"
     val canPublish: Boolean = true // true - может ли текущий пользователь сделать репост записи
 )
+
+class PostNotFoundException(message: String): Exception(message)
 
 //class WallService {
 //    private var posts = emptyArray<Post>()
@@ -58,6 +66,7 @@ data class Likes (
 object WallService {
     private var posts = emptyArray<Post>()
     private var nextId: Int = 1
+    private var comments = emptyArray<Comments>()
 
     fun clear() {
         posts = emptyArray()
@@ -65,7 +74,7 @@ object WallService {
     }
 
     fun add(post: Post): Post {
-        val newPost = post.copy(id = nextId)
+        val newPost = post.copy(postId = nextId)
         posts += newPost
         nextId++
         return newPost
@@ -73,7 +82,7 @@ object WallService {
 
     fun update(post: Post): Boolean {
         for (i in posts.indices) {
-            if (posts[i].id == post.id) {
+            if (posts[i].postId == post.postId) {
                 val updatedPost = posts[i].copy(text = post.text, likes = Likes(count = 60))
                 posts[i] = updatedPost
                 println(posts[i])
@@ -81,6 +90,16 @@ object WallService {
             }
         }
         return false
+    }
+
+    fun createComment(postId: Int, comment: Comments): Comments {
+        val post = posts.find { it.postId == postId}
+        if (post != null) {
+            comments += comment
+            return comment
+        } else {
+            throw PostNotFoundException("Post with this id not found!")
+        }
     }
 }
 
@@ -111,7 +130,11 @@ fun main() {
     val addedPost2 = postService.add(newPost2)
     println(addedPost2)
 
-    val updPost = Post(id = 2, text = "Обновленная запись поста", likes = Likes(count = 4))
+    val updPost = Post(postId = 2, text = "Обновленная запись поста", likes = Likes(count = 4))
     val updatePost = postService.update(updPost)
     println(updatePost)
-}
+
+    val addNewComm = postService.createComment(1, comment = Comments(1, text = "First Comment in id 2"))
+    println(addNewComm)
+
+   }
