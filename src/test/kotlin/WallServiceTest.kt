@@ -63,7 +63,7 @@ class WallServiceTest {
         service.add(Post(id = 2, text = "Third post", attachments = emptyArray()))
         service.add(Post(id = 3, text = "Fourth post", attachments = emptyArray()))
 
-        val updPost = Post(id = 3, text = "Обновленная запись", likes = Likes(count = 4), attachments = emptyArray())
+        val updPost = Post(id = 3, text = "Обновленная запись", likes = Likes(count = 4))
         val updatePost = service.update(updPost)
         assertTrue(updatePost)
     }

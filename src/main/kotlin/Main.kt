@@ -11,7 +11,7 @@ data class Post (
     val isFavorite: Boolean = false, // true - объект добавлен в закладки у текущего пользователя
     var comments: Comments? = Comments(),
     var likes: Likes? = Likes(),
-    var attachments: Array<Attachment>
+    var attachments: Array<Attachment> = emptyArray()
 )
 
 // другие data-classes, которые могут быть вложены в класс Post
@@ -102,15 +102,16 @@ object WallService {
 
 fun main() {
     val postService = WallService
-    val newPost = Post(text = "Новая запись", likes = Likes(count = 3), attachments = emptyArray())
+    val newPost = Post(text = "Новая запись", likes = Likes(count = 3),
+        attachments = arrayOf(AudioAttachment(3, 1,"audio", "some audio", 3)))
     val addedPost = postService.add(newPost)
     println(addedPost)
 
-    val newPost2 = Post(text = "Вторая новая запись", attachments = emptyArray())
+    val newPost2 = Post(text = "Вторая новая запись")
     val addedPost2 = postService.add(newPost2)
     println(addedPost2)
 
-    val updPost = Post(id = 2, text = "Обновленная запись поста", likes = Likes(count = 4), attachments = emptyArray<Attachment>())
+    val updPost = Post(id = 2, text = "Обновленная запись поста", likes = Likes(count = 4))
     val updatePost = postService.update(updPost)
     println(updatePost)
 }
