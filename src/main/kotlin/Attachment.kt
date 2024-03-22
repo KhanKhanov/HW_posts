@@ -14,7 +14,6 @@ data class AudioAttachment(
     override val type: String = "Audio"
 ) : Attachment
 
-
 data class VideoAttachment(
     val videoId: Long,       // идентификатор вложения
     val ownerId: Long,  // идентификатор владельца видео или аудио
