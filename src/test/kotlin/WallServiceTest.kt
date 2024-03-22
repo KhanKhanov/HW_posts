@@ -89,4 +89,13 @@ class WallServiceTest {
         val crtComm = service.createComment(1, newComm)
         assertEquals(newComm, crtComm)
     }
+
+    @Test(expected = PostNotFoundException::class)
+    fun shouldThrow() {
+        val service = WallService
+        service.add(Post(text = "Second post", attachments = emptyArray()))
+
+        val newComm = Comments(text = "Created first comment!")
+        val crtComm = service.createComment(2, newComm)
+   }
 }
